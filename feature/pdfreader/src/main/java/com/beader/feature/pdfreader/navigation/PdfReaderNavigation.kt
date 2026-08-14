@@ -40,13 +40,18 @@ class PdfReaderArgs(
  * Wires this feature's screens into the app-level [androidx.navigation.NavHost].
  * The route constant and [navigateToPdfReader] are the only things `:app`
  * needs to know about — screen composables stay private to this module.
+ * [onNavigateToDocument]/[onNavigateToLibrary] are supplied by `:app` since
+ * features never reference each other's routes directly.
  */
-fun NavGraphBuilder.pdfReaderScreen() {
+fun NavGraphBuilder.pdfReaderScreen(
+    onNavigateToDocument: (uri: String) -> Unit,
+    onNavigateToLibrary: () -> Unit,
+) {
     composable(
         route = PDF_READER_ROUTE,
         arguments = listOf(navArgument(URI_ARG) { type = NavType.StringType }),
     ) {
-        PdfReaderRoute()
+        PdfReaderRoute(onNavigateToDocument = onNavigateToDocument, onNavigateToLibrary = onNavigateToLibrary)
     }
 }
 
