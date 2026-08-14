@@ -1,8 +1,9 @@
 package com.beader.feature.pdfreader
 
 import android.graphics.Bitmap
-import androidx.compose.ui.test.assertDoesNotExist
+import androidx.compose.ui.test.assertCountEquals
 import androidx.compose.ui.test.junit4.createComposeRule
+import androidx.compose.ui.test.onAllNodesWithText
 import androidx.compose.ui.test.onNodeWithText
 import kotlinx.coroutines.flow.emptyFlow
 import org.junit.Rule
@@ -34,7 +35,7 @@ class PdfReaderScreenTest {
             )
         }
 
-        composeTestRule.onNodeWithText("PDF Reader").assertDoesNotExist()
+        composeTestRule.onAllNodesWithText("PDF Reader").assertCountEquals(0)
     }
 
     @Test
