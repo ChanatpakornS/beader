@@ -1,7 +1,7 @@
 package com.beader.core.testing
 
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.TestDispatcher
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.resetMain
@@ -19,7 +19,6 @@ import org.junit.jupiter.api.extension.ExtensionContext
 class MainDispatcherRule(
     private val testDispatcher: TestDispatcher = UnconfinedTestDispatcher(),
 ) : BeforeEachCallback, AfterEachCallback {
-
     override fun beforeEach(context: ExtensionContext) {
         Dispatchers.setMain(testDispatcher)
     }

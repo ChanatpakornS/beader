@@ -26,43 +26,47 @@ class SampleViewModelTest {
     @BeforeEach
     fun setUp() {
         fakeRepository = FakeSampleRepository()
-        viewModel = SampleViewModel(
-            getSampleItems = GetSampleItemsUseCase(fakeRepository),
-            toggleFavorite = ToggleFavoriteUseCase(fakeRepository),
-        )
+        viewModel =
+            SampleViewModel(
+                getSampleItems = GetSampleItemsUseCase(fakeRepository),
+                toggleFavorite = ToggleFavoriteUseCase(fakeRepository),
+            )
     }
 
     @Test
-    fun `uiState starts as Loading before the repository emits`() = runTest {
-        viewModel.uiState.test {
-            assertTrue(awaitItem() is SampleUiState.Loading)
+    fun `uiState starts as Loading before the repository emits`() =
+        runTest {
+            viewModel.uiState.test {
+                assertTrue(awaitItem() is SampleUiState.Loading)
+            }
         }
-    }
 
     @Test
-    fun `uiState reflects repository items once loaded`() = runTest {
-        viewModel.uiState.test {
-            assertTrue(awaitItem() is SampleUiState.Loading)
+    fun `uiState reflects repository items once loaded`() =
+        runTest {
+            viewModel.uiState.test {
+                assertTrue(awaitItem() is SampleUiState.Loading)
 
+                fakeRepository.emit(listOf(SampleItem(id = "1", title = "Item", description = "Desc")))
+
+                val loaded = awaitItem() as SampleUiState.Success
+                assertEquals(1, loaded.items.size)
+            }
+        }
+
+    @Test
+    fun `onToggleFavorite flips the item's favorite flag`() =
+        runTest {
             fakeRepository.emit(listOf(SampleItem(id = "1", title = "Item", description = "Desc")))
 
-            val loaded = awaitItem() as SampleUiState.Success
-            assertEquals(1, loaded.items.size)
+            viewModel.uiState.test {
+                skipItems(1) // Loading
+                skipItems(1) // initial Success
+
+                viewModel.onToggleFavorite("1")
+
+                val updated = awaitItem() as SampleUiState.Success
+                assertTrue(updated.items.first().isFavorite)
+            }
         }
-    }
-
-    @Test
-    fun `onToggleFavorite flips the item's favorite flag`() = runTest {
-        fakeRepository.emit(listOf(SampleItem(id = "1", title = "Item", description = "Desc")))
-
-        viewModel.uiState.test {
-            skipItems(1) // Loading
-            skipItems(1) // initial Success
-
-            viewModel.onToggleFavorite("1")
-
-            val updated = awaitItem() as SampleUiState.Success
-            assertTrue(updated.items.first().isFavorite)
-        }
-    }
 }

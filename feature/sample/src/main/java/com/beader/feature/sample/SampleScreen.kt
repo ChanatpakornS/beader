@@ -55,17 +55,19 @@ internal fun SampleScreen(
         when (uiState) {
             is SampleUiState.Loading -> FullScreenLoading(modifier = Modifier.padding(paddingValues))
 
-            is SampleUiState.Error -> FullScreenError(
-                message = uiState.message,
-                onRetry = { /* re-collecting the Flow triggers automatically on resubscribe */ },
-                modifier = Modifier.padding(paddingValues),
-            )
+            is SampleUiState.Error ->
+                FullScreenError(
+                    message = uiState.message,
+                    onRetry = { /* re-collecting the Flow triggers automatically on resubscribe */ },
+                    modifier = Modifier.padding(paddingValues),
+                )
 
-            is SampleUiState.Success -> SampleList(
-                items = uiState.items,
-                onToggleFavorite = onToggleFavorite,
-                modifier = Modifier.padding(paddingValues),
-            )
+            is SampleUiState.Success ->
+                SampleList(
+                    items = uiState.items,
+                    onToggleFavorite = onToggleFavorite,
+                    modifier = Modifier.padding(paddingValues),
+                )
         }
     }
 }
@@ -102,12 +104,19 @@ private fun SampleList(
 private fun SampleScreenPreview() {
     BeaderTheme {
         SampleScreen(
-            uiState = SampleUiState.Success(
-                items = listOf(
-                    SampleItem(id = "1", title = "First item", description = "Description one"),
-                    SampleItem(id = "2", title = "Second item", description = "Description two", isFavorite = true),
+            uiState =
+                SampleUiState.Success(
+                    items =
+                        listOf(
+                            SampleItem(id = "1", title = "First item", description = "Description one"),
+                            SampleItem(
+                                id = "2",
+                                title = "Second item",
+                                description = "Description two",
+                                isFavorite = true,
+                            ),
+                        ),
                 ),
-            ),
             onToggleFavorite = {},
         )
     }

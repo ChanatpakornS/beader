@@ -21,49 +21,52 @@ import javax.inject.Singleton
  * database, and the DAO's [Flow] pushes the update to every collector.
  */
 @Singleton
-class SampleRepositoryImpl @Inject constructor(
-    private val sampleApiService: SampleApiService,
-    private val sampleItemDao: SampleItemDao,
-) : SampleRepository {
+class SampleRepositoryImpl
+    @Inject
+    constructor(
+        private val sampleApiService: SampleApiService,
+        private val sampleItemDao: SampleItemDao,
+    ) : SampleRepository {
+        override fun observeSampleItems(): Flow<DataResult<List<SampleItem>>> =
+            sampleItemDao.observeAll()
+                .map<List<SampleItemEntity>, DataResult<List<SampleItem>>> { entities ->
+                    DataResult.Success(entities.map { it.toDomain() })
+                }
+                .onStart {
+                    emit(DataResult.Loading)
+                    refreshFromNetwork()
+                }
+                .catch { throwable ->
+                    Timber.e(throwable, "Failed to observe sample items")
+                    emit(DataResult.Error(throwable))
+                }
 
-    override fun observeSampleItems(): Flow<DataResult<List<SampleItem>>> =
-        sampleItemDao.observeAll()
-            .map<List<SampleItemEntity>, DataResult<List<SampleItem>>> { entities ->
-                DataResult.Success(entities.map { it.toDomain() })
-            }
-            .onStart {
-                emit(DataResult.Loading)
-                refreshFromNetwork()
-            }
-            .catch { throwable ->
-                Timber.e(throwable, "Failed to observe sample items")
-                emit(DataResult.Error(throwable))
-            }
+        override suspend fun toggleFavorite(id: String) {
+            sampleItemDao.toggleFavorite(id)
+        }
 
-    override suspend fun toggleFavorite(id: String) {
-        sampleItemDao.toggleFavorite(id)
+        private suspend fun refreshFromNetwork() {
+            runCatching { sampleApiService.getSampleItems() }
+                .onSuccess { dtos ->
+                    sampleItemDao.upsertAll(dtos.map { it.toEntity() })
+                }
+                .onFailure { throwable ->
+                    Timber.w(throwable, "Network refresh failed, serving cached data")
+                }
+        }
     }
 
-    private suspend fun refreshFromNetwork() {
-        runCatching { sampleApiService.getSampleItems() }
-            .onSuccess { dtos ->
-                sampleItemDao.upsertAll(dtos.map { it.toEntity() })
-            }
-            .onFailure { throwable ->
-                Timber.w(throwable, "Network refresh failed, serving cached data")
-            }
-    }
-}
+private fun SampleItemEntity.toDomain() =
+    SampleItem(
+        id = id,
+        title = title,
+        description = description,
+        isFavorite = isFavorite,
+    )
 
-private fun SampleItemEntity.toDomain() = SampleItem(
-    id = id,
-    title = title,
-    description = description,
-    isFavorite = isFavorite,
-)
-
-private fun SampleItemDto.toEntity() = SampleItemEntity(
-    id = id,
-    title = title,
-    description = description,
-)
+private fun SampleItemDto.toEntity() =
+    SampleItemEntity(
+        id = id,
+        title = title,
+        description = description,
+    )

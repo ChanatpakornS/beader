@@ -14,9 +14,10 @@ class SampleScreenTest {
     fun successState_rendersItemTitles() {
         composeTestRule.setContent {
             SampleScreen(
-                uiState = SampleUiState.Success(
-                    items = listOf(SampleItem(id = "1", title = "First item", description = "Desc")),
-                ),
+                uiState =
+                    SampleUiState.Success(
+                        items = listOf(SampleItem(id = "1", title = "First item", description = "Desc")),
+                    ),
                 onToggleFavorite = {},
             )
         }

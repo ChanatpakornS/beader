@@ -20,12 +20,12 @@ class MainActivity : ComponentActivity() {
         installSplashScreen()
         super.onCreate(savedInstanceState)
 
-        enableEdgeToEdge(
-            statusBarStyle = SystemBarStyle.auto(
+        val transparentStatusBarStyle =
+            SystemBarStyle.auto(
                 android.graphics.Color.TRANSPARENT,
                 android.graphics.Color.TRANSPARENT,
-            ),
-        )
+            )
+        enableEdgeToEdge(statusBarStyle = transparentStatusBarStyle)
 
         setContent {
             BeaderTheme {

@@ -11,8 +11,10 @@ import javax.inject.Inject
  * repositories directly — this keeps business rules out of the
  * presentation layer and independently testable.
  */
-class GetSampleItemsUseCase @Inject constructor(
-    private val sampleRepository: SampleRepository,
-) {
-    operator fun invoke(): Flow<DataResult<List<SampleItem>>> = sampleRepository.observeSampleItems()
-}
+class GetSampleItemsUseCase
+    @Inject
+    constructor(
+        private val sampleRepository: SampleRepository,
+    ) {
+        operator fun invoke(): Flow<DataResult<List<SampleItem>>> = sampleRepository.observeSampleItems()
+    }

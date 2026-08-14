@@ -19,39 +19,43 @@ class SampleRepositoryImplTest {
     private val repository = SampleRepositoryImpl(sampleApiService, sampleItemDao)
 
     @Test
-    fun `observeSampleItems refreshes from network and emits cached rows`() = runTest {
-        val cached = MutableStateFlow(
-            listOf(SampleItemEntity(id = "1", title = "Cached", description = "From Room")),
-        )
-        every { sampleItemDao.observeAll() } returns cached
-        coEvery { sampleApiService.getSampleItems() } returns
-            listOf(SampleItemDto(id = "1", title = "Cached", description = "From Room"))
-        coEvery { sampleItemDao.upsertAll(any()) } returns Unit
+    fun `observeSampleItems refreshes from network and emits cached rows`() =
+        runTest {
+            val cached =
+                MutableStateFlow(
+                    listOf(SampleItemEntity(id = "1", title = "Cached", description = "From Room")),
+                )
+            every { sampleItemDao.observeAll() } returns cached
+            coEvery { sampleApiService.getSampleItems() } returns
+                listOf(SampleItemDto(id = "1", title = "Cached", description = "From Room"))
+            coEvery { sampleItemDao.upsertAll(any()) } returns Unit
 
-        repository.observeSampleItems().test {
-            val loading = awaitItem()
-            assert(loading is DataResult.Loading)
+            repository.observeSampleItems().test {
+                val loading = awaitItem()
+                assert(loading is DataResult.Loading)
 
-            val success = awaitItem()
-            assert(success is DataResult.Success && success.data.first().title == "Cached")
+                val success = awaitItem()
+                assert(success is DataResult.Success && success.data.first().title == "Cached")
 
-            cancelAndIgnoreRemainingEvents()
+                cancelAndIgnoreRemainingEvents()
+            }
         }
-    }
 
     @Test
-    fun `observeSampleItems falls back to cache when the network call fails`() = runTest {
-        val cached = MutableStateFlow(
-            listOf(SampleItemEntity(id = "1", title = "Cached", description = "From Room")),
-        )
-        every { sampleItemDao.observeAll() } returns cached
-        coEvery { sampleApiService.getSampleItems() } throws java.io.IOException("offline")
+    fun `observeSampleItems falls back to cache when the network call fails`() =
+        runTest {
+            val cached =
+                MutableStateFlow(
+                    listOf(SampleItemEntity(id = "1", title = "Cached", description = "From Room")),
+                )
+            every { sampleItemDao.observeAll() } returns cached
+            coEvery { sampleApiService.getSampleItems() } throws java.io.IOException("offline")
 
-        repository.observeSampleItems().test {
-            awaitItem() // Loading
-            val success = awaitItem()
-            assert(success is DataResult.Success && success.data.size == 1)
-            cancelAndIgnoreRemainingEvents()
+            repository.observeSampleItems().test {
+                awaitItem() // Loading
+                val success = awaitItem()
+                assert(success is DataResult.Success && success.data.size == 1)
+                cancelAndIgnoreRemainingEvents()
+            }
         }
-    }
 }

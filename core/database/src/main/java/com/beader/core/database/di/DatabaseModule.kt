@@ -18,8 +18,9 @@ private const val DATABASE_NAME = "beader-database"
 object DatabaseModule {
     @Provides
     @Singleton
-    fun provideBeaderDatabase(@ApplicationContext context: Context): BeaderDatabase =
-        Room.databaseBuilder(context, BeaderDatabase::class.java, DATABASE_NAME).build()
+    fun provideBeaderDatabase(
+        @ApplicationContext context: Context,
+    ): BeaderDatabase = Room.databaseBuilder(context, BeaderDatabase::class.java, DATABASE_NAME).build()
 
     @Provides
     fun provideSampleItemDao(database: BeaderDatabase): SampleItemDao = database.sampleItemDao()

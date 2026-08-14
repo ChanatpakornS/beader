@@ -15,14 +15,15 @@ class GetSampleItemsUseCaseTest {
     private val getSampleItems = GetSampleItemsUseCase(sampleRepository)
 
     @Test
-    fun `invoke emits items from the repository unchanged`() = runTest {
-        val items = listOf(SampleItem(id = "1", title = "First", description = "Desc"))
-        every { sampleRepository.observeSampleItems() } returns flowOf(DataResult.Success(items))
+    fun `invoke emits items from the repository unchanged`() =
+        runTest {
+            val items = listOf(SampleItem(id = "1", title = "First", description = "Desc"))
+            every { sampleRepository.observeSampleItems() } returns flowOf(DataResult.Success(items))
 
-        getSampleItems().test {
-            val emission = awaitItem()
-            assert(emission is DataResult.Success && emission.data == items)
-            awaitComplete()
+            getSampleItems().test {
+                val emission = awaitItem()
+                assert(emission is DataResult.Success && emission.data == items)
+                awaitComplete()
+            }
         }
-    }
 }

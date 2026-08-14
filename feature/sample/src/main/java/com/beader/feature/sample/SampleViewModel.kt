@@ -14,34 +14,37 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class SampleViewModel @Inject constructor(
-    getSampleItems: GetSampleItemsUseCase,
-    private val toggleFavorite: ToggleFavoriteUseCase,
-) : ViewModel() {
-
-    val uiState: StateFlow<SampleUiState> = getSampleItems()
-        .map { result ->
-            when (result) {
-                is DataResult.Loading -> SampleUiState.Loading
-                is DataResult.Success -> SampleUiState.Success(result.data)
-                is DataResult.Error -> SampleUiState.Error(
-                    result.message ?: "Something went wrong",
+class SampleViewModel
+    @Inject
+    constructor(
+        getSampleItems: GetSampleItemsUseCase,
+        private val toggleFavorite: ToggleFavoriteUseCase,
+    ) : ViewModel() {
+        val uiState: StateFlow<SampleUiState> =
+            getSampleItems()
+                .map { result ->
+                    when (result) {
+                        is DataResult.Loading -> SampleUiState.Loading
+                        is DataResult.Success -> SampleUiState.Success(result.data)
+                        is DataResult.Error ->
+                            SampleUiState.Error(
+                                result.message ?: "Something went wrong",
+                            )
+                    }
+                }
+                .stateIn(
+                    scope = viewModelScope,
+                    started = SharingStarted.WhileSubscribed(STOP_TIMEOUT_MILLIS),
+                    initialValue = SampleUiState.Loading,
                 )
+
+        fun onToggleFavorite(id: String) {
+            viewModelScope.launch {
+                toggleFavorite(id)
             }
         }
-        .stateIn(
-            scope = viewModelScope,
-            started = SharingStarted.WhileSubscribed(STOP_TIMEOUT_MILLIS),
-            initialValue = SampleUiState.Loading,
-        )
 
-    fun onToggleFavorite(id: String) {
-        viewModelScope.launch {
-            toggleFavorite(id)
+        private companion object {
+            const val STOP_TIMEOUT_MILLIS = 5_000L
         }
     }
-
-    private companion object {
-        const val STOP_TIMEOUT_MILLIS = 5_000L
-    }
-}
