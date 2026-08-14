@@ -1,6 +1,7 @@
 package com.beader.feature.pdfreader
 
 import android.graphics.Bitmap
+import androidx.compose.ui.test.assertDoesNotExist
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithText
 import kotlinx.coroutines.flow.emptyFlow
@@ -22,6 +23,19 @@ class PdfReaderScreenTest {
             onRequestPage = {},
             onOpenDrawer = {},
         )
+
+    @Test
+    fun topBar_hasNoTitleText() {
+        composeTestRule.setContent {
+            PdfReaderScreen(
+                uiState = PdfReaderUiState.Loading,
+                scrollToPageEvents = emptyFlow(),
+                actions = noopActions,
+            )
+        }
+
+        composeTestRule.onNodeWithText("PDF Reader").assertDoesNotExist()
+    }
 
     @Test
     fun errorState_rendersErrorMessage() {

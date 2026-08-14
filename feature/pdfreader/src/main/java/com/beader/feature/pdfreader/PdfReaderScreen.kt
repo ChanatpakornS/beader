@@ -4,6 +4,7 @@ import android.graphics.BitmapFactory
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.gestures.detectTransformGestures
 import androidx.compose.foundation.gestures.snapping.rememberSnapFlingBehavior
 import androidx.compose.foundation.layout.Arrangement
@@ -68,6 +69,13 @@ import kotlinx.coroutines.launch
 
 private const val MIN_ZOOM = 1f
 private const val MAX_ZOOM = 5f
+
+/**
+ * Placeholder aspect ratio (width / height) for a continuous-mode page that
+ * hasn't rendered yet — an A4-ish portrait guess, close enough to avoid a
+ * jarring resize once the real page swaps in.
+ */
+private const val PLACEHOLDER_ASPECT_RATIO = 1f / 1.4142f
 
 @Composable
 fun PdfReaderRoute(
@@ -259,7 +267,7 @@ private fun PdfReaderTopBar(
     onOpenDrawer: () -> Unit,
 ) {
     TopAppBar(
-        title = { Text("PDF Reader") },
+        title = {},
         navigationIcon = {
             IconButton(onClick = onOpenDrawer) {
                 Icon(Icons.Filled.Menu, contentDescription = "Open library navigation")
@@ -289,7 +297,8 @@ private fun SinglePageContent(
             ZoomablePdfPage(
                 imageBytes = pageBytes,
                 pageIndex = state.currentPageIndex,
-                modifier = Modifier.fillMaxWidth().weight(1f),
+                modifier = Modifier.fillMaxSize().weight(1f),
+                onTapNavigate = { isNext -> if (isNext) onNextPage() else onPreviousPage() },
             )
         } else {
             FullScreenLoading(modifier = Modifier.fillMaxWidth().weight(1f))
@@ -333,13 +342,16 @@ private fun ContinuousContent(
                 LaunchedEffect(index) { currentOnRequestPage(index) }
                 val pageBytes = state.pages[index]
                 if (pageBytes != null) {
+                    // No fixed height here, deliberately: sizing to the page's own aspect ratio
+                    // (rather than forcing a full viewport height) is what keeps consecutive pages
+                    // flush against each other instead of leaving a gap below shorter-than-screen pages.
                     ZoomablePdfPage(
                         imageBytes = pageBytes,
                         pageIndex = index,
-                        modifier = Modifier.fillParentMaxSize(),
+                        modifier = Modifier.fillMaxWidth(),
                     )
                 } else {
-                    FullScreenLoading(modifier = Modifier.fillParentMaxSize())
+                    FullScreenLoading(modifier = Modifier.fillMaxWidth().aspectRatio(PLACEHOLDER_ASPECT_RATIO))
                 }
             }
         }
@@ -387,6 +399,7 @@ private fun ZoomablePdfPage(
     imageBytes: ByteArray,
     pageIndex: Int,
     modifier: Modifier = Modifier,
+    onTapNavigate: ((isNext: Boolean) -> Unit)? = null,
 ) {
     val imageBitmap =
         remember(imageBytes) {
@@ -395,19 +408,29 @@ private fun ZoomablePdfPage(
         }
     var scale by remember(pageIndex) { mutableFloatStateOf(MIN_ZOOM) }
     var offset by remember(pageIndex) { mutableStateOf(Offset.Zero) }
+    val currentOnTapNavigate by rememberUpdatedState(onTapNavigate)
 
     Image(
         bitmap = imageBitmap,
         contentDescription = "PDF page ${pageIndex + 1}",
         modifier =
             modifier
-                .fillMaxSize()
                 .graphicsLayer(
                     scaleX = scale,
                     scaleY = scale,
                     translationX = offset.x,
                     translationY = offset.y,
                 ).pointerInput(pageIndex) {
+                    detectTapGestures(
+                        onDoubleTap = {
+                            scale = MIN_ZOOM
+                            offset = Offset.Zero
+                        },
+                        onTap = { tapOffset ->
+                            currentOnTapNavigate?.invoke(tapOffset.x > size.width / 2f)
+                        },
+                    )
+                }.pointerInput(pageIndex) {
                     detectTransformGestures { _, pan, zoom, _ ->
                         scale = (scale * zoom).coerceIn(MIN_ZOOM, MAX_ZOOM)
                         offset += pan
