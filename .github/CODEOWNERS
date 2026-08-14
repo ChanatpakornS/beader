@@ -1,0 +1,9 @@
+# Default owners for everything in the repo, unless a later match takes precedence.
+* @chanatpakorns
+
+# Architecture-sensitive surfaces — changes here affect every module.
+/gradle/libs.versions.toml @chanatpakorns
+/build.gradle.kts @chanatpakorns
+/settings.gradle.kts @chanatpakorns
+/.ai/ @chanatpakorns
+/docs/01-architecture/ @chanatpakorns
