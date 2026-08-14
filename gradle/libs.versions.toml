@@ -20,7 +20,7 @@ hilt = "2.52"
 hiltNavigationCompose = "1.2.0"
 
 # Coroutines
-coroutines = "1.11.0"
+coroutines = "1.10.2"
 
 # Persistence
 room = "2.6.1"
@@ -29,7 +29,7 @@ datastore = "1.1.1"
 # Networking
 retrofit = "2.11.0"
 okhttp = "4.12.0"
-kotlinxSerialization = "1.11.0"
+kotlinxSerialization = "1.8.1"
 kotlinxSerializationConverter = "1.0.0"
 
 # Imaging
@@ -40,7 +40,7 @@ timber = "5.0.1"
 
 # Testing
 junit5 = "5.14.4"
-mockk = "1.14.11"
+mockk = "1.14.7"
 turbine = "1.2.1"
 truth = "1.4.5"
 androidxTestJunit = "1.2.1"
