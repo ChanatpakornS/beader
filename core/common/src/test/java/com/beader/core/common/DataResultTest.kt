@@ -10,7 +10,6 @@ import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 
 class DataResultTest {
-
     @Test
     fun `map transforms success payload only`() {
         val success: DataResult<Int> = DataResult.Success(2)

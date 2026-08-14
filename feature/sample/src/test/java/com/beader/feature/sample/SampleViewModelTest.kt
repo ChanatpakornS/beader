@@ -14,7 +14,6 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.RegisterExtension
 
 class SampleViewModelTest {
-
     companion object {
         @JvmField
         @RegisterExtension

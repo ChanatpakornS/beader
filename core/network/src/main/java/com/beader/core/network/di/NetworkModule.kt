@@ -2,19 +2,19 @@ package com.beader.core.network.di
 
 import com.beader.core.network.BuildConfig
 import com.beader.core.network.service.SampleApiService
+import com.jakewharton.retrofit2.converter.kotlinx.serialization.KotlinSerializationConverterFactory
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import java.util.concurrent.TimeUnit
+import javax.inject.Singleton
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
-import retrofit2.converter.kotlinx.serialization.asConverterFactory
 import retrofit2.create
-import java.util.concurrent.TimeUnit
-import javax.inject.Singleton
 
 private const val BASE_URL = "https://api.example.com/"
 private const val TIMEOUT_SECONDS = 30L
@@ -22,7 +22,6 @@ private const val TIMEOUT_SECONDS = 30L
 @Module
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
-
     @Provides
     @Singleton
     fun provideJson(): Json = Json {
@@ -48,7 +47,7 @@ object NetworkModule {
     fun provideRetrofit(okHttpClient: OkHttpClient, json: Json): Retrofit = Retrofit.Builder()
         .baseUrl(BASE_URL)
         .client(okHttpClient)
-        .addConverterFactory(json.asConverterFactory("application/json".toMediaType()))
+        .addConverterFactory(KotlinSerializationConverterFactory.create(json, "application/json".toMediaType()))
         .build()
 
     @Provides

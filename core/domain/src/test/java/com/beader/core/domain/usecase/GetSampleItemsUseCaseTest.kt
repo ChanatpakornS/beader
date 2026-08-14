@@ -11,7 +11,6 @@ import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Test
 
 class GetSampleItemsUseCaseTest {
-
     private val sampleRepository: SampleRepository = mockk()
     private val getSampleItems = GetSampleItemsUseCase(sampleRepository)
 

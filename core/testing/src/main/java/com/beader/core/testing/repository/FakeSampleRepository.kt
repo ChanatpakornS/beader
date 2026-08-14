@@ -12,7 +12,6 @@ import kotlinx.coroutines.flow.asStateFlow
  * emissions by hand.
  */
 class FakeSampleRepository : SampleRepository {
-
     private val state = MutableStateFlow<DataResult<List<SampleItem>>>(DataResult.Loading)
     private val items = mutableListOf<SampleItem>()
 

@@ -16,7 +16,6 @@ private const val DATABASE_NAME = "beader-database"
 @Module
 @InstallIn(SingletonComponent::class)
 object DatabaseModule {
-
     @Provides
     @Singleton
     fun provideBeaderDatabase(@ApplicationContext context: Context): BeaderDatabase =

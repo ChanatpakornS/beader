@@ -14,7 +14,6 @@ import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Test
 
 class SampleRepositoryImplTest {
-
     private val sampleApiService: SampleApiService = mockk()
     private val sampleItemDao: SampleItemDao = mockk()
     private val repository = SampleRepositoryImpl(sampleApiService, sampleItemDao)

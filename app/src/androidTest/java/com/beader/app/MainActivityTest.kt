@@ -9,7 +9,6 @@ import org.junit.Test
 
 @HiltAndroidTest
 class MainActivityTest {
-
     @get:Rule(order = 0)
     val hiltRule = HiltAndroidRule(this)
 
