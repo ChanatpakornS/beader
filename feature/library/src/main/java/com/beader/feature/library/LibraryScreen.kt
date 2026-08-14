@@ -130,7 +130,7 @@ internal fun LibraryScreen(
 
     Scaffold(
         modifier = modifier,
-        topBar = { TopAppBar(title = { Text("PDF Library") }) },
+        topBar = { TopAppBar(title = { Text("Library") }) },
         snackbarHost = { SnackbarHost(snackbarHostState) },
         floatingActionButton = {
             FloatingActionButton(onClick = actions.onImportDocument) {
