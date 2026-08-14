@@ -15,7 +15,7 @@ permissions:
   contents: read
 
 env:
-  GRADLE_OPTS: "-Dorg.gradle.daemon=false"
+  GRADLE_OPTS: "-Dorg.gradle.daemon=false -Dorg.gradle.console=plain"
 
 jobs:
   lint-and-format:
