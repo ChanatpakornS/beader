@@ -57,10 +57,10 @@ class SampleViewModelTest {
     @Test
     fun `onToggleFavorite flips the item's favorite flag`() =
         runTest {
-            fakeRepository.emit(listOf(SampleItem(id = "1", title = "Item", description = "Desc")))
-
             viewModel.uiState.test {
                 skipItems(1) // Loading
+
+                fakeRepository.emit(listOf(SampleItem(id = "1", title = "Item", description = "Desc")))
                 skipItems(1) // initial Success
 
                 viewModel.onToggleFavorite("1")
