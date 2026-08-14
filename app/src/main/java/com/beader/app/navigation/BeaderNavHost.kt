@@ -27,6 +27,14 @@ fun BeaderNavHost(
         modifier = modifier,
     ) {
         libraryScreen(onOpenDocument = { uri -> navigateToPdfReader(navController, uri) })
-        pdfReaderScreen()
+        pdfReaderScreen(
+            onNavigateToDocument = { uri -> navigateToPdfReader(navController, uri) },
+            onNavigateToLibrary = {
+                navController.navigate(LIBRARY_ROUTE) {
+                    popUpTo(LIBRARY_ROUTE) { inclusive = true }
+                    launchSingleTop = true
+                }
+            },
+        )
     }
 }
