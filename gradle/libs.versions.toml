@@ -16,7 +16,7 @@ composeBom = "2024.12.01"
 navigationCompose = "2.8.5"
 
 # DI
-hilt = "2.60.1"
+hilt = "2.59"
 hiltNavigationCompose = "1.2.0"
 
 # Coroutines
