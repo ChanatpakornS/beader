@@ -6,4 +6,4 @@
 /build.gradle.kts @chanatpakorns
 /settings.gradle.kts @chanatpakorns
 /.ai/ @chanatpakorns
-/docs/01-architecture/ @chanatpakorns
+/.ai/docs/01-architecture/ @chanatpakorns

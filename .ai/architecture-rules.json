@@ -74,7 +74,10 @@
     ":core:designsystem": { "type": "core-ui" },
     ":core:ui": { "type": "core-ui" },
     ":core:common": { "type": "core-common" },
-    ":core:testing": { "type": "core-testing" }
+    ":core:pdf": { "type": "core-infrastructure" },
+    ":core:testing": { "type": "core-testing" },
+    ":feature:library": { "type": "feature" },
+    ":feature:pdfreader": { "type": "feature" }
   },
   "namingConventions": {
     "useCase": { "suffix": "UseCase", "module": ":core:domain", "package": "com.beader.core.domain.usecase" },

@@ -82,6 +82,8 @@ dependencies {
     implementation(project(":core:designsystem"))
     implementation(project(":core:ui"))
     implementation(project(":feature:sample"))
+    implementation(project(":feature:library"))
+    implementation(project(":feature:pdfreader"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.splashscreen)

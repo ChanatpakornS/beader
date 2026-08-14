@@ -32,7 +32,7 @@ rather than relying on convention alone.
 :core:ui ──► :core:designsystem
 ```
 
-See [`docs/01-architecture/overview.md`](docs/01-architecture/overview.md)
+See [`.ai/docs/01-architecture/overview.md`](.ai/docs/01-architecture/overview.md)
 for the full rationale, a rendered dependency diagram, and the rules that
 govern what may depend on what.
 
@@ -65,8 +65,7 @@ work entirely from the CLI with the commands below.
 | `app/`            | Application entry point, NavHost, DI graph root. |
 | `core/`            | Shared, feature-agnostic modules (`common`, `domain`, `data`, `network`, `database`, `datastore`, `designsystem`, `ui`, `testing`). |
 | `feature/`         | One module per user-facing feature. `feature/sample` is the fully-worked reference slice — copy its shape for new features. |
-| `docs/`            | Architecture, SDLC, and quality documentation. |
-| `.ai/`             | Machine-readable context and rules for AI coding agents — see below. |
+| `.ai/`             | Machine-readable context and rules for AI coding agents — see below. Also holds `.ai/docs/`, the architecture, SDLC, and quality documentation. |
 | `.github/`         | CI workflow, PR/issue templates, CODEOWNERS, Dependabot config. |
 | `config/detekt/`   | Static analysis rule configuration. |
 
@@ -79,11 +78,11 @@ architecture from scratch:
 - [`.ai/context.md`](.ai/context.md) — entry point; read this first.
 - [`.ai/coding-standards.md`](.ai/coding-standards.md) — hard constraints (state management, DI, layering, testing).
 - [`.ai/architecture-rules.json`](.ai/architecture-rules.json) — machine-readable module dependency graph and naming conventions.
-- [`docs/04-ai/prompt-engineering-guide.md`](docs/04-ai/prompt-engineering-guide.md) — guidance for the human directing an agent on this repo.
+- [`.ai/docs/04-ai/prompt-engineering-guide.md`](.ai/docs/04-ai/prompt-engineering-guide.md) — guidance for the human directing an agent on this repo.
 
 ## Contributing
 
-See [`docs/02-sdlc/git-workflow.md`](docs/02-sdlc/git-workflow.md) for
+See [`.ai/docs/02-sdlc/git-workflow.md`](.ai/docs/02-sdlc/git-workflow.md) for
 branching, commit message, and PR conventions, and
-[`docs/03-quality/testing-strategy.md`](docs/03-quality/testing-strategy.md)
+[`.ai/docs/03-quality/testing-strategy.md`](.ai/docs/03-quality/testing-strategy.md)
 for what test coverage is expected at each layer.
