@@ -14,32 +14,41 @@ plugins {
     alias(libs.plugins.room) apply false
 }
 
+// The generated type-safe `libs` accessor is not reliably bound when read
+// from inside a subprojects {} closure (it's resolved against whichever
+// subproject is currently being configured, not the root project's own
+// classpath) - so look the catalog up through the stable
+// VersionCatalogsExtension API instead, per Gradle's documented pattern for
+// consuming catalogs outside of a project's own build script.
+val libsCatalog = extensions.getByType<org.gradle.api.artifacts.VersionCatalogsExtension>().named("libs")
+
 subprojects {
     apply(plugin = "io.gitlab.arturbosch.detekt")
     apply(plugin = "com.diffplug.spotless")
 
     extensions.configure<io.gitlab.arturbosch.detekt.extensions.DetektExtension> {
-        toolVersion = libs.versions.detekt.get()
+        toolVersion = libsCatalog.findVersion("detekt").get().requiredVersion
         config.setFrom(files("$rootDir/config/detekt/detekt.yml"))
         buildUponDefaultConfig = true
         autoCorrect = false
     }
 
     dependencies {
-        add("detektPlugins", libs.detekt.rules.compose)
+        add("detektPlugins", libsCatalog.findLibrary("detekt-rules-compose").get())
     }
 
     extensions.configure<com.diffplug.gradle.spotless.SpotlessExtension> {
+        val ktlintVersion = libsCatalog.findVersion("ktlint").get().requiredVersion
         kotlin {
             target("src/**/*.kt")
             targetExclude("**/build/**/*.kt")
-            ktlint(libs.versions.ktlint.get())
+            ktlint(ktlintVersion)
             trimTrailingWhitespace()
             endWithNewline()
         }
         kotlinGradle {
             target("*.gradle.kts")
-            ktlint(libs.versions.ktlint.get())
+            ktlint(ktlintVersion)
         }
     }
 
