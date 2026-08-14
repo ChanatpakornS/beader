@@ -50,7 +50,7 @@ androidxTestUiautomator = "2.3.0"
 
 # Static analysis / formatting
 detekt = "1.23.8"
-detektComposeRules = "0.4.22"
+detektComposeRules = "0.6.4"
 spotless = "6.25.0"
 ktlint = "1.8.0"
 
