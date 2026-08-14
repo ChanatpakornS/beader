@@ -39,6 +39,7 @@ include(":core:database")
 include(":core:datastore")
 include(":core:designsystem")
 include(":core:ui")
+include(":core:pdf")
 include(":core:testing")
 
 // ---------------------------------------------------------------------------
@@ -46,3 +47,5 @@ include(":core:testing")
 // on core:* modules but must never depend on each other or on :app.
 // ---------------------------------------------------------------------------
 include(":feature:sample")
+include(":feature:library")
+include(":feature:pdfreader")

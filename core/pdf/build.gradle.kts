@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "com.beader.core.data"
+    namespace = "com.beader.core.pdf"
     compileSdk = 35
 
     defaultConfig {
@@ -26,19 +26,12 @@ android {
 
 dependencies {
     implementation(project(":core:common"))
-    implementation(project(":core:domain"))
-    implementation(project(":core:network"))
-    implementation(project(":core:database"))
-    implementation(project(":core:datastore"))
-    implementation(project(":core:pdf"))
 
     implementation(libs.kotlinx.coroutines.core)
-    implementation(libs.timber)
 
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
 
-    testImplementation(project(":core:testing"))
     testImplementation(libs.bundles.unit.test)
     testRuntimeOnly(libs.junit5.jupiter.engine)
 }
