@@ -12,7 +12,11 @@ import com.beader.core.domain.model.SampleItem
 sealed interface SampleUiState {
     data object Loading : SampleUiState
 
-    data class Success(val items: List<SampleItem>) : SampleUiState
+    data class Success(
+        val items: List<SampleItem>,
+    ) : SampleUiState
 
-    data class Error(val message: String) : SampleUiState
+    data class Error(
+        val message: String,
+    ) : SampleUiState
 }

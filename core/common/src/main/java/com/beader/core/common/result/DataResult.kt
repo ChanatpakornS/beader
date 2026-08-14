@@ -7,9 +7,14 @@ package com.beader.core.common.result
  * this to render success/error/loading UI state.
  */
 sealed interface DataResult<out T> {
-    data class Success<T>(val data: T) : DataResult<T>
+    data class Success<T>(
+        val data: T,
+    ) : DataResult<T>
 
-    data class Error(val throwable: Throwable, val message: String? = throwable.message) : DataResult<Nothing>
+    data class Error(
+        val throwable: Throwable,
+        val message: String? = throwable.message,
+    ) : DataResult<Nothing>
 
     data object Loading : DataResult<Nothing>
 }

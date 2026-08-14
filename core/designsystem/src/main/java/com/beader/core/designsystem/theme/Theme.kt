@@ -52,10 +52,17 @@ fun BeaderTheme(
     val context = LocalContext.current
     val colorScheme =
         when {
-            dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S ->
+            dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
                 if (useDarkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
-            useDarkTheme -> DarkColorScheme
-            else -> LightColorScheme
+            }
+
+            useDarkTheme -> {
+                DarkColorScheme
+            }
+
+            else -> {
+                LightColorScheme
+            }
         }
 
     MaterialTheme(

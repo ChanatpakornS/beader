@@ -9,7 +9,9 @@ import javax.inject.Qualifier
  */
 @Qualifier
 @Retention(AnnotationRetention.RUNTIME)
-annotation class Dispatcher(val beaderDispatcher: BeaderDispatchers)
+annotation class Dispatcher(
+    val beaderDispatcher: BeaderDispatchers,
+)
 
 enum class BeaderDispatchers {
     Default,

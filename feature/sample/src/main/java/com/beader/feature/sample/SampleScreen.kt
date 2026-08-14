@@ -53,21 +53,25 @@ internal fun SampleScreen(
         topBar = { TopAppBar(title = { Text("Beader Sample") }) },
     ) { paddingValues ->
         when (uiState) {
-            is SampleUiState.Loading -> FullScreenLoading(modifier = Modifier.padding(paddingValues))
+            is SampleUiState.Loading -> {
+                FullScreenLoading(modifier = Modifier.padding(paddingValues))
+            }
 
-            is SampleUiState.Error ->
+            is SampleUiState.Error -> {
                 FullScreenError(
                     message = uiState.message,
                     onRetry = { /* re-collecting the Flow triggers automatically on resubscribe */ },
                     modifier = Modifier.padding(paddingValues),
                 )
+            }
 
-            is SampleUiState.Success ->
+            is SampleUiState.Success -> {
                 SampleList(
                     items = uiState.items,
                     onToggleFavorite = onToggleFavorite,
                     modifier = Modifier.padding(paddingValues),
                 )
+            }
         }
     }
 }

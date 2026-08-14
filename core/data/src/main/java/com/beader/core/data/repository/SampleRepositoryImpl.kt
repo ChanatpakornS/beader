@@ -28,15 +28,14 @@ class SampleRepositoryImpl
         private val sampleItemDao: SampleItemDao,
     ) : SampleRepository {
         override fun observeSampleItems(): Flow<DataResult<List<SampleItem>>> =
-            sampleItemDao.observeAll()
+            sampleItemDao
+                .observeAll()
                 .map<List<SampleItemEntity>, DataResult<List<SampleItem>>> { entities ->
                     DataResult.Success(entities.map { it.toDomain() })
-                }
-                .onStart {
+                }.onStart {
                     emit(DataResult.Loading)
                     refreshFromNetwork()
-                }
-                .catch { throwable ->
+                }.catch { throwable ->
                     Timber.e(throwable, "Failed to observe sample items")
                     emit(DataResult.Error(throwable))
                 }
@@ -49,8 +48,7 @@ class SampleRepositoryImpl
             runCatching { sampleApiService.getSampleItems() }
                 .onSuccess { dtos ->
                     sampleItemDao.upsertAll(dtos.map { it.toEntity() })
-                }
-                .onFailure { throwable ->
+                }.onFailure { throwable ->
                     Timber.w(throwable, "Network refresh failed, serving cached data")
                 }
         }

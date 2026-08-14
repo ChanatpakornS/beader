@@ -24,15 +24,21 @@ class SampleViewModel
             getSampleItems()
                 .map { result ->
                     when (result) {
-                        is DataResult.Loading -> SampleUiState.Loading
-                        is DataResult.Success -> SampleUiState.Success(result.data)
-                        is DataResult.Error ->
+                        is DataResult.Loading -> {
+                            SampleUiState.Loading
+                        }
+
+                        is DataResult.Success -> {
+                            SampleUiState.Success(result.data)
+                        }
+
+                        is DataResult.Error -> {
                             SampleUiState.Error(
                                 result.message ?: "Something went wrong",
                             )
+                        }
                     }
-                }
-                .stateIn(
+                }.stateIn(
                     scope = viewModelScope,
                     started = SharingStarted.WhileSubscribed(STOP_TIMEOUT_MILLIS),
                     initialValue = SampleUiState.Loading,
