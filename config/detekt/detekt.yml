@@ -34,9 +34,6 @@ complexity:
     active: true
     functionThreshold: 6
     constructorThreshold: 8
-  ComplexMethod:
-    active: true
-    threshold: 15
   TooManyFunctions:
     active: true
     thresholdInClasses: 20
@@ -73,6 +70,7 @@ naming:
   FunctionNaming:
     active: true
     functionPattern: '[a-z][a-zA-Z0-9]*'
+    ignoreAnnotated: ['Composable']
   TopLevelPropertyNaming:
     active: true
 
@@ -112,12 +110,13 @@ style:
     max: 3
   UnusedPrivateMember:
     active: true
+    ignoreAnnotated: ['Preview']
   UseCheckOrError:
     active: true
   UnnecessaryAbstractClass:
     active: true
 
-compose:
+Compose:
   active: true
   ComposableParamOrder:
     active: true

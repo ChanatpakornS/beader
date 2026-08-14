@@ -2,7 +2,7 @@ package com.beader.core.network.di
 
 import com.beader.core.network.BuildConfig
 import com.beader.core.network.service.SampleApiService
-import com.jakewharton.retrofit2.converter.kotlinx.serialization.KotlinSerializationConverterFactory
+import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -53,7 +53,7 @@ object NetworkModule {
         Retrofit.Builder()
             .baseUrl(BASE_URL)
             .client(okHttpClient)
-            .addConverterFactory(KotlinSerializationConverterFactory.create(json, "application/json".toMediaType()))
+            .addConverterFactory(json.asConverterFactory("application/json".toMediaType()))
             .build()
 
     @Provides
