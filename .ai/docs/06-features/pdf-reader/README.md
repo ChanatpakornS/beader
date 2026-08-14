@@ -50,7 +50,7 @@ navigation from Library's tap callback into Reader's route.
 ## What changes, module by module
 
 Follows the existing Clean Architecture layering
-(`docs/01-architecture/overview.md`, `.ai/architecture-rules.json`) — same
+(`.ai/docs/01-architecture/overview.md`, `.ai/architecture-rules.json`) — same
 shape as the `feature:sample` reference slice, one level down.
 
 | Module | Change | Why |

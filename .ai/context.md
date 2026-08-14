@@ -1,7 +1,7 @@
 # AI Agent Entry Point — Beader
 
-Read this file first. It's the map; the other files in `.ai/` and `docs/`
-are the detail.
+Read this file first. It's the map; the other files in `.ai/`, including
+`.ai/docs/`, are the detail.
 
 ## What this repo is
 
@@ -17,9 +17,9 @@ its shape for new features rather than inventing a new pattern.
    module may depend on which, naming conventions, DI rules. Validate any
    new `build.gradle.kts` dependency you add against this before writing
    it.
-3. `docs/01-architecture/overview.md` — the narrative explanation and
+3. `.ai/docs/01-architecture/overview.md` — the narrative explanation and
    Mermaid dependency graph behind the JSON rules.
-4. `docs/04-ai/prompt-engineering-guide.md` — written for the human
+4. `.ai/docs/04-ai/prompt-engineering-guide.md` — written for the human
    directing you, but useful for understanding what reviewers will check
    in your output.
 

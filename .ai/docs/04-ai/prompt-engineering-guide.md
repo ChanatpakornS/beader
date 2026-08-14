@@ -10,7 +10,7 @@ rule set the agent itself should load, see `.ai/coding-standards.md` and
 Every AI tool that supports it should be configured to load, in order:
 1. `.ai/coding-standards.md` — hard constraints (never do X, always do Y).
 2. `.ai/architecture-rules.json` — machine-readable module dependency rules.
-3. `docs/01-architecture/overview.md` — the "why" behind the rules.
+3. `.ai/docs/01-architecture/overview.md` — the "why" behind the rules.
 
 If your tool doesn't auto-load these, paste them into the system/context
 window before the first prompt in a session.
@@ -45,7 +45,7 @@ do not refactor surrounding code."
 ## What to review carefully in AI-generated output
 
 1. **Dependency direction.** Check new `implementation(project(...))` lines
-   in any `build.gradle.kts` against `docs/01-architecture/overview.md`'s
+   in any `build.gradle.kts` against `.ai/docs/01-architecture/overview.md`'s
    dependency graph. An agent unfamiliar with the boundary will happily add
    a `:feature:*` → `:feature:*` dependency or an `android.*` import inside
    `:core:domain` if not stopped.
@@ -67,7 +67,7 @@ do not refactor surrounding code."
 
 Don't just say "that's wrong" — name the rule it violated and point at the
 doc: "This puts the network call directly in the ViewModel. Per
-`docs/01-architecture/overview.md`, `:feature:*` should only call
+`.ai/docs/01-architecture/overview.md`, `:feature:*` should only call
 `:core:domain` use cases. Move the Retrofit call into `:core:data` and
 expose it through `SampleRepository`." Agents correct much faster with the
 specific boundary named than with a vague "please fix the architecture."
