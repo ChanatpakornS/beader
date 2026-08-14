@@ -26,7 +26,7 @@ class LibraryScreenTest {
             )
         }
 
-        composeTestRule.onNodeWithText("PDF Library").assertExists()
+        composeTestRule.onNodeWithText("Library").assertExists()
     }
 
     @Test

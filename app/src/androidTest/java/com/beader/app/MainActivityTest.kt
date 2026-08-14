@@ -17,6 +17,6 @@ class MainActivityTest {
 
     @Test
     fun launchesWithoutCrashing() {
-        composeTestRule.onNodeWithText("PDF Library").assertExists()
+        composeTestRule.onNodeWithText("Library").assertExists()
     }
 }
