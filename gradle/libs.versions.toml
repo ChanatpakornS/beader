@@ -9,7 +9,7 @@ coreKtx = "1.15.0"
 lifecycle = "2.8.7"
 activityCompose = "1.9.3"
 appcompat = "1.7.0"
-splashscreen = "1.0.1"
+splashscreen = "1.2.0"
 
 # Compose
 composeBom = "2024.12.01"
