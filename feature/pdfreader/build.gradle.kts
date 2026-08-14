@@ -35,6 +35,15 @@ android {
             excludes += "/META-INF/NOTICE*"
         }
     }
+
+    testOptions {
+        unitTests {
+            // PdfReaderViewModel takes a SavedStateHandle; without this, any call that
+            // touches Android framework internals throws "Method ... not mocked" on the
+            // stub android.jar local unit tests otherwise run against.
+            isReturnDefaultValues = true
+        }
+    }
 }
 
 dependencies {
