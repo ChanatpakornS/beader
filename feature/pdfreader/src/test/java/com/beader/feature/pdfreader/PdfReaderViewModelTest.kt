@@ -10,6 +10,7 @@ import com.beader.core.domain.usecase.LoadPdfPageUseCase
 import com.beader.core.domain.usecase.OpenPdfDocumentUseCase
 import com.beader.core.testing.MainDispatcherRule
 import com.beader.core.testing.repository.FakePdfRepository
+import com.beader.feature.pdfreader.navigation.encodeUriArg
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
@@ -35,7 +36,7 @@ class PdfReaderViewModelTest {
         fakeRepository = FakePdfRepository()
         viewModel =
             PdfReaderViewModel(
-                savedStateHandle = SavedStateHandle(mapOf("uri" to DOCUMENT_URI)),
+                savedStateHandle = SavedStateHandle(mapOf("uri" to encodeUriArg(DOCUMENT_URI))),
                 openPdfDocument = OpenPdfDocumentUseCase(fakeRepository),
                 loadPdfPage = LoadPdfPageUseCase(fakeRepository),
                 closePdfDocument = ClosePdfDocumentUseCase(fakeRepository),
