@@ -1,0 +1,10 @@
+# Copy this file to `local.properties` (which is git-ignored) and point
+# `sdk.dir` at your local Android SDK installation.
+#
+#   cp local.properties.example local.properties
+#
+sdk.dir=/Users/yourname/Library/Android/sdk
+
+# Optional: secrets injected at build time (API base URLs, keys, etc).
+# Never commit real values — keep them only in your local, git-ignored copy.
+# API_BASE_URL=https://api.example.com/
