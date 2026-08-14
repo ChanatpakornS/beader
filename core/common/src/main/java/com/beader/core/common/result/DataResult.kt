@@ -26,6 +26,17 @@ inline fun <T, R> DataResult<T>.map(transform: (T) -> R): DataResult<R> =
         is DataResult.Loading -> this
     }
 
+/**
+ * Chains a step that itself produces a [DataResult], short-circuiting on
+ * the first [DataResult.Error]/[DataResult.Loading].
+ */
+suspend fun <T, R> DataResult<T>.flatMap(transform: suspend (T) -> DataResult<R>): DataResult<R> =
+    when (this) {
+        is DataResult.Success -> transform(data)
+        is DataResult.Error -> this
+        is DataResult.Loading -> this
+    }
+
 inline fun <T> DataResult<T>.onSuccess(action: (T) -> Unit): DataResult<T> {
     if (this is DataResult.Success) action(data)
     return this

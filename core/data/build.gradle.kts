@@ -30,6 +30,7 @@ dependencies {
     implementation(project(":core:network"))
     implementation(project(":core:database"))
     implementation(project(":core:datastore"))
+    implementation(project(":core:pdf"))
 
     implementation(libs.kotlinx.coroutines.core)
     implementation(libs.timber)

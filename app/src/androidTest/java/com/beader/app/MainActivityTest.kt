@@ -17,6 +17,6 @@ class MainActivityTest {
 
     @Test
     fun launchesWithoutCrashing() {
-        composeTestRule.onNodeWithText("Beader Sample").assertExists()
+        composeTestRule.onNodeWithText("PDF Library").assertExists()
     }
 }
